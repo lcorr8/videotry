@@ -1,0 +1,30 @@
+make a form<br>
+-have a collection select to choose the section<br>
+-have checkbox collection to select the videos<br>
++the form assigns the section to the videos<br><br><br>
+
+List of videos with no section<br>
+<% @user_videos.each do |video| %>
+  <%= Video.find(video.video_id).name %> 
+  <br>
+<% end %>
+
+<br><br><br>
+Form to add section to videos:<br><br>
+
+EDIT THE ACTION IN THE FORM FORM TO LEAD TO THE ASSIGN-SECTIONS
+<%= form_for @user_video, url: assign_sections_path, method: :post do |f| %>
+  <%= f.label "Select a section:" %>
+  <%= f.collection_select :section_id, Section.all, :id, :name %><br>
+  <%= f.label "Videos to add to the section:" %>
+  <% @user_videos.each do |user_video|  %>
+    <label>
+      <%= check_box_tag "user[video_ids][]", user_video.video_id  %>
+      <%= Video.find(user_video.video_id).name %>
+    </label>
+  <% end %>  
+
+
+  <%= f.submit "Assign section to videos" %>
+
+<% end %>
